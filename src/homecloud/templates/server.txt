@@ -1,0 +1,26 @@
+import tomlkit
+import os
+from pathlib import Path
+from fastapi import FastAPI
+import server_config
+
+root = Path(__file__).parent
+
+app = FastAPI()
+
+
+@app.get("/ping")
+def ping():
+    return 200
+
+
+if __name__ == "__main__":
+    config_path = root / "server_config.toml"
+    if not config_path.exists():
+        print("No server_config.toml detected.")
+        print("Creating config...")
+        server_config.configure_server("Ethernet", config_dir=root)
+    config = tomlkit.loads(config_path.read_text())
+    os.system(
+        f"uvicorn {Path(__file__).stem}:app --reload --host {config['ip']} --port {config['port']}"
+    )

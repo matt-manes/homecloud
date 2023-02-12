@@ -1,0 +1,6 @@
+__pycache__
+.coverage
+.vscode
+.pytest_cache
+TODO.txt
+server_config.toml

@@ -1,0 +1,2 @@
+# Restrict the port range so finding servers doesn't take so long
+port_range=[50000, 50100]
