@@ -5,3 +5,7 @@ from typing import Any
 
 class Request(BaseModel):
     host: str
+
+
+class LogsRequest(Request):
+    log_stream: str
