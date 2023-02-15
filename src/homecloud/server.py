@@ -8,26 +8,15 @@ import request_models
 import lanutils
 import homecloud_utils
 from homecloud_logging import get_logger
+import get_routes
+import post_routes
 
 root = Path(__file__).parent
 
 app = FastAPI()
+app.include_router(get_routes.router)
+app.include_router(post_routes.router)
 "$router_includes"
-
-
-@app.get("/homecloud")
-def homecloud(request: request_models.Request):
-    # You can add to the payload here if you want
-    # but don't remove anything or the server will be
-    # undiscoverable by homecloud clients.
-    get_logger("$app_name_server").info(f"{request.host} says hello")
-    return {"app_name": "$app_name", "host": request.host}
-
-
-@app.put("/clientlogs")
-def writelogs(request: request_models.LogsRequest):
-    with (root / "logs" / f"{request.host}.log").open("a") as logfile:
-        logfile.write(request.log_stream)
 
 
 def get_serving_address() -> tuple[str, int]:
