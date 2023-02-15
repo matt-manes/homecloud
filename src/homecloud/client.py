@@ -82,7 +82,7 @@ class HomeCloudClient:
 
     def push_logs(self):
         self.send_request(
-            "put", "clientlogs", data={"log_stream": self.log_stream.getvalue()}
+            "post", "clientlogs", data={"log_stream": self.log_stream.getvalue()}
         )
         self.log_stream.truncate(0)
         self.log_stream.seek(0)
