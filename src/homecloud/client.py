@@ -5,7 +5,6 @@ import requests
 from typing import Any
 import homecloud_utils
 import homecloud_logging
-from io import StringIO
 
 
 class HomeCloudClient:
