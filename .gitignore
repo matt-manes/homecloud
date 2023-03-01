@@ -5,3 +5,4 @@ __pycache__
 TODO.txt
 server_config.toml
 logs
+cl.py
