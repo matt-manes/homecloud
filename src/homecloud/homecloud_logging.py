@@ -36,7 +36,7 @@ def get_logger(logname: str, loglevel: str = "INFO") -> logging.Logger:
 def get_client_logger(
     logname: str, host: str, loglevel: str = "INFO"
 ) -> tuple[logging.Logger, StringIO]:
-    logger = get_logger(logname, "ERROR")
+    logger = get_logger(logname, loglevel)
     if all(logging.StreamHandler != type(handler) for handler in logger.handlers):
         log_stream = StringIO()
         handler = logging.StreamHandler(log_stream)
