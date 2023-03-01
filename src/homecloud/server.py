@@ -1,10 +1,6 @@
-import tomlkit
 import os
 from pathlib import Path
 from fastapi import FastAPI
-import server_config
-import json
-import request_models
 import lanutils
 import homecloud_utils
 from homecloud_logging import get_logger
@@ -28,7 +24,9 @@ def get_serving_address() -> tuple[str, int]:
 
 
 def start_server(uvicorn_args: list[str] = ["--reload"]):
+    logger = get_logger("$app_name_server")
     ip, port = get_serving_address()
+    logger.info(f"Server started: http://{ip}:{port}")
     os.system(
         f"uvicorn {Path(__file__).stem}:app {' '.join(uvicorn_args)} --host {ip} --port {port}"
     )
