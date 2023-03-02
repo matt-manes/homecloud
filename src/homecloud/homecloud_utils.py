@@ -1,25 +1,11 @@
-import ifaddr
 import socket
-import ipaddress
 import requests
 from concurrent.futures import ThreadPoolExecutor
-import icmplib
-import tomlkit
 from pathlib import Path
 import json
 import lanutils
 
 root = Path(__file__).parent
-
-
-def get_port_range() -> tuple[int, int]:
-    """Get port_range from 'homecloud_config.toml'.
-    Need to do all this casting because tomlkit class types
-    mess things up."""
-    port_range = tuple(
-        tomlkit.loads((root / "homecloud_config.toml").read_text())["port_range"]
-    )
-    return (int(port_range[0]), int(port_range[1]))
 
 
 def is_homecloud_server(ip: str, port: int) -> str | bool:
@@ -45,8 +31,13 @@ def is_homecloud_server(ip: str, port: int) -> str | bool:
         return False
 
 
-def get_homecloud_servers() -> dict[str, tuple[str, int]]:
+def get_homecloud_servers(
+    port_range: tuple[int, int] = (50000, 50100)
+) -> dict[str, tuple[str, int]]:
     """Scan the local network for servers.
+
+    :param port_range: The range of ports to scan for homecloud servers.
+    The larger the range, the longer the scan will take.
 
     Returns a dictionary where the key is the app name
     and the value is a tuple containing the ip address
@@ -54,7 +45,6 @@ def get_homecloud_servers() -> dict[str, tuple[str, int]]:
     >>> print(get_homecloud_servers())
     >>> {"$app_name": ("10.0.0.49", 50025), "$app_name2": ("10.0.0.32", 50041)}"""
     ips = lanutils.enumerate_devices()
-    port_range = get_port_range()
     # Get all open ports in port_range for all ips
     with ThreadPoolExecutor() as executor:
         threads = [executor.submit(lanutils.scan_ports, ip, port_range) for ip in ips]
