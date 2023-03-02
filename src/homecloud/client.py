@@ -46,6 +46,7 @@ class HomeCloudClient:
         send_logs: bool = True,
         log_send_thresh: int = 10,
         log_level: str = "INFO",
+        timeout: int = 10,
     ):
         """Initialize client object.
 
@@ -57,11 +58,15 @@ class HomeCloudClient:
         :param log_send_thresh: The number of logging events required
         before sending logs to the server and flushing the current stream.
 
-        :param log_level: The level of events to log."""
+        :param log_level: The level of events to log.
+
+        :param timeout: Number of seconds to wait for a response
+        when sending a request."""
         self.app_name = app_name
         self.host_name = socket.gethostname()
         self.send_logs = send_logs
         self.log_send_thresh = log_send_thresh
+        self.timeout = timeout
         if send_logs:
             self.logger, self.log_stream = homecloud_logging.get_client_logger(
                 f"{self.app_name}_client", self.host_name, log_level
@@ -99,14 +104,27 @@ class HomeCloudClient:
         return {"host": self.host_name}
 
     def send_request(
-        self, method: str, resource: str, data: dict = {}
+        self, method: str, resource: str, data: dict = {}, params: dict = {}
     ) -> requests.Response:
+        """Send a request to the server.
+
+        :param method: The method to use (get, post, etc.).
+
+        :param resource: The path location of the requested resource
+        (e.g. /users/me).
+
+        :param data: The request body.
+
+        :param params: Url parameters."""
         data |= self.base_payload
-        url = f"{self.server_url}/{resource}"
+        url = f"{self.server_url}{resource}"
         data = json.dumps(data)
-        return requests.request(method, url, data=data)
+        return requests.request(
+            method, url, data=data, params=params, timeout=self.timeout
+        )
 
     def push_logs(self):
+        """Push log stream to the server."""
         self.logger.info(f"Pushing log stream to {self.app_name} server.")
         self.send_request(
             "post", "clientlogs", data={"log_stream": self.log_stream.getvalue()}

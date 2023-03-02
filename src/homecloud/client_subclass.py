@@ -9,8 +9,9 @@ class app_nameClient(HomeCloudClient):
         send_logs: bool = True,
         log_send_thresh: int = 10,
         log_level: str = "INFO",
+        timeout: int = 10,
     ):
-        super().__init__(app_name, send_logs, log_send_thresh, log_level)
+        super().__init__(app_name, send_logs, log_send_thresh, log_level, timeout)
 
     @on_fail
     def hello(self) -> str:
