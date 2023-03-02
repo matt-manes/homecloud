@@ -2,19 +2,15 @@ import os
 from pathlib import Path
 from fastapi import FastAPI
 import lanutils
-from homecloud_logging import get_logger
+from homecloud.homecloud_logging import get_logger
 import tomlkit
 
 "$router_imports"
-import get_routes
-import post_routes
 
 root = Path(__file__).parent
 config = tomlkit.loads((root / "homecloud_config.toml").read_text())
 
 app = FastAPI()
-app.include_router(get_routes.router)
-app.include_router(post_routes.router)
 "$router_includes"
 
 
