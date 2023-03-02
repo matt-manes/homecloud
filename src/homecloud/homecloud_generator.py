@@ -13,7 +13,7 @@ def get_args() -> argparse.Namespace:
         "app_name",
         type=str,
         nargs="?",
-        default=Path.cwd().parent.stem,
+        default=Path.cwd().stem,
         help=""" The name of the app to generate files for.
         If a value isn't provided, the folder name
         of the current working directory will be used.""",
