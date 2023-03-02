@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 import socket
 from io import StringIO
+import inspect
 
 root = Path(__file__).parent
 
@@ -18,6 +19,7 @@ def get_logger(log_name: str, log_level: str = "INFO") -> logging.Logger:
     logger = logging.getLogger(log_name)
 
     if not logger.hasHandlers():
+        root = Path(inspect.stack()[-1].filename).parent
         (root / "logs").mkdir(exist_ok=True, parents=True)
         handler = logging.FileHandler(str(root / "logs" / f"{log_name}.log"))
         handler.setFormatter(
