@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-import socket
 from io import StringIO
 import inspect
 
@@ -39,18 +38,17 @@ def get_client_logger(
     log_name: str, host: str, log_level: str = "INFO"
 ) -> tuple[logging.Logger, StringIO]:
     logger = get_logger(log_name, log_level)
-    if all(logging.StreamHandler != type(handler) for handler in logger.handlers):
-        log_stream = StringIO()
-        handler = logging.StreamHandler(log_stream)
-        handler.setFormatter(
-            logging.Formatter(
-                "{levelname}|-|{host}|-|{asctime}|-|{message}",
-                style="{",
-                datefmt="%m/%d/%Y %I:%M:%S %p",
-            )
+    log_stream = StringIO()
+    handler = logging.StreamHandler(log_stream)
+    handler.setFormatter(
+        logging.Formatter(
+            "{levelname}|-|{host}|-|{asctime}|-|{message}",
+            style="{",
+            datefmt="%m/%d/%Y %I:%M:%S %p",
         )
-        handler.setLevel(log_level)
-        logger.addHandler(handler)
-        logger.setLevel(log_level)
-        logger = logging.LoggerAdapter(logger, {"host": host})
+    )
+    handler.setLevel(log_level)
+    logger.addHandler(handler)
+    logger.setLevel(log_level)
+    logger = logging.LoggerAdapter(logger, {"host": host})
     return logger, log_stream
