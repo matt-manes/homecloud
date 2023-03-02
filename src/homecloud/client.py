@@ -127,7 +127,7 @@ class HomeCloudClient:
         """Push log stream to the server."""
         self.logger.info(f"Pushing log stream to {self.app_name} server.")
         self.send_request(
-            "post", "clientlogs", data={"log_stream": self.log_stream.getvalue()}
+            "post", "/clientlogs", data={"log_stream": self.log_stream.getvalue()}
         )
         self.log_stream.truncate(0)
         self.log_stream.seek(0)

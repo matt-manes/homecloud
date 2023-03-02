@@ -17,4 +17,4 @@ class app_nameClient(HomeCloudClient):
     def hello(self) -> str:
         """Contacts the server and returns the app name."""
         self.logger.debug(f"Saying hello to the {self.app_name} server.")
-        return json.loads(self.send_request("get", "homecloud").text)["app_name"]
+        return json.loads(self.send_request("get", "/homecloud").text)["app_name"]
