@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from fastapi import FastAPI
 import lanutils
-import homecloud_utils
 from homecloud_logging import get_logger
 import tomlkit
 
@@ -11,6 +10,7 @@ import get_routes
 import post_routes
 
 root = Path(__file__).parent
+config = tomlkit.loads((root / "homecloud_config.toml").read_text())
 
 app = FastAPI()
 app.include_router(get_routes.router)
@@ -22,9 +22,7 @@ def get_port_range() -> tuple[int, int]:
     """Get port_range from 'homecloud_config.toml'.
     Need to do all this casting because tomlkit class types
     mess things up."""
-    port_range = tuple(
-        tomlkit.loads((root / "homecloud_config.toml").read_text())["port_range"]
-    )
+    port_range = tuple(config["port_range"])
     return (int(port_range[0]), int(port_range[1]))
 
 
@@ -46,4 +44,4 @@ def start_server(uvicorn_args: list[str] = ["--reload"]):
 
 
 if __name__ == "__main__":
-    start_server()
+    start_server(config["uvicorn_args"])
