@@ -30,7 +30,7 @@ def get_args() -> argparse.Namespace:
 
     parser.add_argument(
         "-d",
-        "--directory",
+        "--destination",
         type=str,
         default=Path.cwd(),
         help=""" The directory to save the generated files to.
@@ -38,7 +38,7 @@ def get_args() -> argparse.Namespace:
     )
 
     args = parser.parse_args()
-    args.directory = Path(args.directory)
+    args.destination = Path(args.destination)
 
     return args
 
