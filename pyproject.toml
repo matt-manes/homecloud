@@ -41,3 +41,4 @@ exclude = [
     ]
 [project.scripts]
 homecloud = "homecloud.homecloud_generator:main"
+module_to_api = "homecloud.module_to_api:main"
