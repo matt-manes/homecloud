@@ -130,7 +130,7 @@ def format_function(
 
 def generate_client_functions(
     functions: list[tuple],
-    method: str = None,
+    default_method: str = None,
     resource_parent: str = None,
     indent_level: int = 1,
     indent_ch: str = " " * 4,
@@ -156,7 +156,10 @@ def generate_client_functions(
     :param indent_ch: The indentation character to use.
     Default is four spaces."""
     client_functions = []
+
     for function in functions:
+        # Reset method for each iteration
+        method = default_method
         sig = inspect.signature(function[1])
         decorator = "@on_fail"
         definition = format_definition(function)
@@ -171,6 +174,7 @@ def generate_client_functions(
         resource = f"/{function[0].replace('_','-')}"
         if resource_parent:
             resource = f"/{resource_parent}{resource}"
+        print(method)
         if not method:
             if "get" in definition.lower():
                 method = "get"
@@ -267,6 +271,17 @@ def get_args() -> argparse.Namespace:
         If None, the current working directory will be scanned for one.""",
     )
 
+    parser.add_argument(
+        "-f",
+        "--functions",
+        type=str,
+        default=None,
+        nargs="*",
+        help=""" A list of functions to add.
+        If None, every function in the module file
+        will be added.""",
+    )
+
     args = parser.parse_args()
     if not args.client:
         try:
@@ -290,6 +305,10 @@ def main(args: argparse.Namespace = None):
         args = get_args()
     module = get_module(args.module)
     module_functions = get_functions(module)
+    if args.functions:
+        module_functions = [
+            function for function in module_functions if function[0] in args.functions
+        ]
     client_functions = generate_client_functions(
         module_functions,
         args.method,
