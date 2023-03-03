@@ -1,6 +1,6 @@
 import inspect
 import importlib
-from importlib import util
+import importlib.util
 import sys
 from pathlib import Path
 from typing import Any
@@ -14,8 +14,8 @@ root = Path(__file__).parent
 
 def load_module_from_file(path: Path) -> Any:
     """Load a module from a local file."""
-    spec = util.spec_from_file_location(path.stem, str(path))
-    module = util.module_from_spec(spec)
+    spec = importlib.util.spec_from_file_location(path.stem, str(path))
+    module = importlib.util.module_from_spec(spec)
     sys.modules[path.stem] = module
     spec.loader.exec_module(module)
     return module
@@ -49,7 +49,7 @@ def get_functions(module) -> list[tuple]:
                     )
         elif inspect.isfunction(value):
             functions.append((function, value, inspect.getdoc(value)))
-    origin = Path(util.find_spec(module.__name__).origin)
+    origin = Path(importlib.util.find_spec(module.__name__).origin)
     # Local packages include functions from built in modules they import
     if not ("Lib" and "Python" and "site-packages" in origin.parts):
         source = inspect.getsource(module)
