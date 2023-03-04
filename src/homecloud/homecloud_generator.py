@@ -89,6 +89,7 @@ class HomeCloudGenerator:
         )
         for sub in [
             ('"$app_name"', self.app_name),
+            ("$app_name", self.app_name),
             ('"$router_imports"', imports),
             ('"$router_includes"', includes),
         ]:
