@@ -14,6 +14,7 @@ root = Path(__file__).parent
 
 def load_module_from_file(path: Path) -> Any:
     """Load a module from a local file."""
+    sys.path.insert(0, str(path.parent))
     spec = importlib.util.spec_from_file_location(path.stem, str(path))
     module = importlib.util.module_from_spec(spec)
     sys.modules[path.stem] = module
@@ -32,6 +33,7 @@ def get_module(module: str | Path) -> Any:
         else:
             return load_module_from_file(module)
     except Exception as e:
+        print(e)
         print(f"Could not load {module}")
 
 
@@ -174,7 +176,6 @@ def generate_client_functions(
         resource = f"/{function[0].replace('_','-')}"
         if resource_parent:
             resource = f"/{resource_parent}{resource}"
-        print(method)
         if not method:
             if "get" in definition.lower():
                 method = "get"
@@ -294,8 +295,10 @@ def get_args() -> argparse.Namespace:
             raise FileNotFoundError(
                 "Could not find an appropriate client file in the current directory."
             )
-    if args.module.endswith(".py"):
+    if args.module.strip().endswith(".py"):
         args.module = Path(args.module)
+        if not args.module.is_absolute():
+            args.module = Path.cwd() / args.module
 
     return args
 
