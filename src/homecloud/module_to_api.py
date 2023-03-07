@@ -1,11 +1,12 @@
-import inspect
+import argparse
 import importlib
 import importlib.util
+import inspect
 import sys
 from pathlib import Path
 from typing import Any
+
 import black
-import argparse
 
 root = Path(__file__).parent
 

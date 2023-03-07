@@ -1,5 +1,6 @@
-from homecloud import homecloud_generator
 from pathlib import Path
+
+from homecloud import homecloud_generator
 
 root = Path(__file__).parent
 

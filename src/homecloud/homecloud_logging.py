@@ -1,7 +1,7 @@
-import logging
-from pathlib import Path
-from io import StringIO
 import inspect
+import logging
+from io import StringIO
+from pathlib import Path
 
 root = Path(__file__).parent
 

@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import Any, Optional
+
 from pydantic import BaseModel
-from typing import Any
 
 
 class Request(BaseModel):

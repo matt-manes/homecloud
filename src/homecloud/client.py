@@ -1,10 +1,11 @@
 import json
-import time
 import socket
-import requests
+import time
 from typing import Any
-from homecloud import homecloud_utils
-from homecloud import homecloud_logging
+
+import requests
+
+from homecloud import homecloud_logging, homecloud_utils
 
 
 def on_fail(func):

@@ -1,8 +1,10 @@
+import json
 import socket
-import requests
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-import json
+
+import requests
+
 import lanutils
 
 root = Path(__file__).parent
