@@ -96,7 +96,7 @@ class HomeCloudClient:
             server_port = ""
             message = f"Failed to find {self.app_name} server."
             print(message)
-            self.logger.error(message)
+            self.logger.exception(message)
         return f"http://{server_ip}:{server_port}"
 
     def get_base_payload(self) -> dict:
