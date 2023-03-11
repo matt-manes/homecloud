@@ -3,9 +3,9 @@ import socket
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-import requests
-
 import lanutils
+import requests
+import tomlkit
 
 root = Path(__file__).parent
 
@@ -71,3 +71,12 @@ def get_homecloud_servers(
         for address, thread in zip(open_addresses, threads)
         if thread.result()
     }
+
+
+def load_config() -> dict | None:
+    """Load and return homecloud_config.toml."""
+    config_path = Path.cwd() / "homecloud_config.toml"
+    if not config_path.exists():
+        RuntimeWarning(f"No 'homecloud_config.toml' found in {config_path.parent}")
+        return None
+    return tomlkit.loads(config_path.read_text())
