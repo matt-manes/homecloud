@@ -77,7 +77,9 @@ class HomeCloudClient:
             self.logger = homecloud_logging.get_logger(
                 f"{self.app_name}_client", log_level
             )
-        self.server_url = self.wheres_my_server()
+        self.server_url = self.check_last_server()
+        if not self.server_url:
+            self.server_url = self.wheres_my_server()
         self.base_payload = self.get_base_payload()
 
     def wheres_my_server(self) -> str:
@@ -119,6 +121,9 @@ class HomeCloudClient:
         for this app is active at the address.
         If it is, return the server's url.
         If not, return None."""
+        self.logger.info(
+            f"Checking if 'homecloud_config.toml' contains previous server information."
+        )
         config = homecloud_utils.load_config()
         if not config:
             self.logger.info(f"No 'homecloud_config.toml' found.")
