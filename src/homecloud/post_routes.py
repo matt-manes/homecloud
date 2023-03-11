@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from fastapi import APIRouter
-from homecloud import homecloud_logging
-
 import request_models
+from fastapi import APIRouter
+
+from homecloud import homecloud_logging
 
 root = Path(__file__).parent
 
