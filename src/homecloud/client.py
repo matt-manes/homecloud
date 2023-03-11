@@ -4,6 +4,7 @@ import time
 from typing import Any
 
 import requests
+import tomlkit
 
 from homecloud import homecloud_logging, homecloud_utils
 
@@ -92,6 +93,7 @@ class HomeCloudClient:
             message = f"Found {self.app_name} server at {server_ip}:{server_port}"
             print(message)
             self.logger.info(message)
+            self.save_server(server_ip, server_port)
         except Exception as e:
             server_ip = ""
             server_port = ""
@@ -99,6 +101,17 @@ class HomeCloudClient:
             print(message)
             self.logger.exception(message)
         return f"http://{server_ip}:{server_port}"
+
+    def save_server(self, ip: str, port: int):
+        """Save server ip and port to homecloud_config.toml
+        as 'last_server_ip' and 'last_server_port' fields."""
+        config = homecloud_utils.load_config()
+        config["last_server_ip"] = ip
+        config["last_server_port"] = port
+        homecloud_utils.save_config(config)
+        self.logger.info(
+            f"Saved '{ip}' and '{port}' to 'last_server_ip' and 'last_server_port' fields in 'homecloud_config.toml'."
+        )
 
     def get_base_payload(self) -> dict:
         """Can be overridden without having to override self.__init__()"""
