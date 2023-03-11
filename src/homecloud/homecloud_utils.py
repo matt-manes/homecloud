@@ -87,3 +87,16 @@ def load_config(config_path: Path | str = None) -> dict | None:
         RuntimeWarning(f"No '{config_path.stem}' found in {config_path.parent}")
         return None
     return tomlkit.loads(config_path.read_text())
+
+
+def save_config(config: dict, config_path: Path | str = None):
+    """Save toml config file.
+
+    :param config_path: file path to the config file.
+    If not given, a file named 'homecloud_config.toml'
+    will be created in the current working directory."""
+    if not config_path:
+        config_path = Path.cwd() / "homecloud_config.toml"
+    else:
+        config_path = Path(config_path)
+    config_path.write_text(tomlkit.dumps(config))
