@@ -113,6 +113,32 @@ class HomeCloudClient:
             f"Saved '{ip}' and '{port}' to 'last_server_ip' and 'last_server_port' fields in 'homecloud_config.toml'."
         )
 
+    def check_last_server(self) -> str | None:
+        """Load ./homecloud_config.toml
+        and see if the last known homecloud server
+        for this app is active at the address.
+        If it is, return the server's url.
+        If not, return None."""
+        config = homecloud_utils.load_config()
+        if not config:
+            self.logger.info(f"No 'homecloud_config.toml' found.")
+            return None
+        if "last_server_ip" in config and "last_server_port" in config:
+            ip = config["last_server_ip"]
+            port = config["last_server_port"]
+            self.logger.info(
+                f"Checking previously contacted server at http://{ip}:{port}"
+            )
+        else:
+            self.logger.info(f"No previous server information found.")
+            return None
+        if homecloud_utils.is_homecloud_server(ip, port) == self.app_name:
+            self.logger.info(f"Previous server at http://{ip}:{port} is active.")
+            return f"http://{ip}:{port}"
+        else:
+            self.logger.info(f"Previous server at http://{ip}:{port} is not active.")
+            return None
+
     def get_base_payload(self) -> dict:
         """Can be overridden without having to override self.__init__()"""
         return {"host": self.host_name}
