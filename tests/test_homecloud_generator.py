@@ -1,6 +1,6 @@
 from pathlib import Path
-
-from homecloud import homecloud_generator
+import os
+from homecloud import homecloud_generator, homecloud_utils
 
 root = Path(__file__).parent
 
@@ -30,3 +30,7 @@ def test__main():
     ]:
         assert_(file)
     assert (dummy_path / "homecloud_config.toml").exists()
+    os.chdir(str(dummy_path))
+    assert homecloud_utils.load_config()
+    config = homecloud_utils.load_config()
+    assert all(item in config for item in ["port_range", "uvicorn_args"])
