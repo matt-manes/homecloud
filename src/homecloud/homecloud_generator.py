@@ -66,7 +66,7 @@ class HomeCloudGenerator:
                 file = root / f"{route}_routes.py"
             content = file.read_text().replace("$app_name", self.app_name)
             content = content.replace(
-                "from homecloud import request_models",
+                "import request_models",
                 f"import {self.app_name}_request_models",
             )
             content = content.replace(
