@@ -73,10 +73,17 @@ def get_homecloud_servers(
     }
 
 
-def load_config() -> dict | None:
-    """Load and return homecloud_config.toml."""
-    config_path = Path.cwd() / "homecloud_config.toml"
+def load_config(config_path: Path | str = None) -> dict | None:
+    """Load and return toml config file.
+
+    :param config_path: file path to the config file.
+    If not given, the current working directory will be searched
+    for a 'homecloud_config.toml' file."""
+    if not config_path:
+        config_path = Path.cwd() / "homecloud_config.toml"
+    else:
+        config_path = Path(config_path)
     if not config_path.exists():
-        RuntimeWarning(f"No 'homecloud_config.toml' found in {config_path.parent}")
+        RuntimeWarning(f"No '{config_path.stem}' found in {config_path.parent}")
         return None
     return tomlkit.loads(config_path.read_text())
