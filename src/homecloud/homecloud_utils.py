@@ -3,9 +3,10 @@ import socket
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-import lanutils
 import requests
 import tomlkit
+
+import lanutils
 
 root = Path(__file__).parent
 

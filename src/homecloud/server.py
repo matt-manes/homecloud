@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
 
-import lanutils
 import tomlkit
 from fastapi import FastAPI
 
+import lanutils
 from homecloud.homecloud_logging import get_logger
 
 "$router_imports"
