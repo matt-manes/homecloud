@@ -1,9 +1,8 @@
-import os
-from pathlib import Path
+from pathier import Pathier
 
 from homecloud import homecloud_generator, homecloud_utils
 
-root = Path(__file__).parent
+root = Pathier(__file__).parent
 
 
 class MockArgs:
@@ -31,7 +30,9 @@ def test__main():
     ]:
         assert_(file)
     assert (dummy_path / "homecloud_config.toml").exists()
-    os.chdir(str(dummy_path))
+    dummy_path.mkcwd()
     assert homecloud_utils.load_config()
     config = homecloud_utils.load_config()
     assert all(item in config for item in ["port_range", "uvicorn_args"])
+    root.mkcwd()
+    dummy_path.delete()

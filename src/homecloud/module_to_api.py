@@ -3,17 +3,17 @@ import importlib
 import importlib.util
 import inspect
 import sys
-from pathlib import Path
+from pathier import Pathier
 from typing import Any
 
 import black
 
-root = Path(__file__).parent
+root = Pathier(__file__).parent
 
 """ Generate client functions from a module's functions."""
 
 
-def load_module_from_file(path: Path) -> Any:
+def load_module_from_file(path: Pathier) -> Any:
     """Load a module from a local file."""
     sys.path.insert(0, str(path.parent))
     spec = importlib.util.spec_from_file_location(path.stem, str(path))
@@ -23,7 +23,7 @@ def load_module_from_file(path: Path) -> Any:
     return module
 
 
-def get_module(module: str | Path) -> Any:
+def get_module(module: str | Pathier) -> Any:
     """Load and return a module.
 
     :param module: Either the name of an installed package
@@ -52,7 +52,7 @@ def get_functions(module) -> list[tuple]:
                     )
         elif inspect.isfunction(value):
             functions.append((function, value, inspect.getdoc(value)))
-    origin = Path(importlib.util.find_spec(module.__name__).origin)
+    origin = Pathier(importlib.util.find_spec(module.__name__).origin)
     # Local packages include functions from built in modules they import
     if not ("Lib" and "Python" and "site-packages" in origin.parts):
         source = inspect.getsource(module)
@@ -196,7 +196,7 @@ def generate_client_functions(
     return client_functions
 
 
-def append_to_client(client_path: Path, client_functions: list[str]):
+def append_to_client(client_path: Pathier, client_functions: list[str]):
     """Append client_functions to client file if a function
     with the same name doesn't already exist."""
     content = client_path.read_text()
@@ -289,7 +289,7 @@ def get_args() -> argparse.Namespace:
         try:
             args.client = [
                 file
-                for file in Path.cwd().glob("*_client.py")
+                for file in Pathier.cwd().glob("*_client.py")
                 if "HomeCloudClient" in file.read_text()
             ][0]
         except Exception as e:
@@ -297,9 +297,9 @@ def get_args() -> argparse.Namespace:
                 "Could not find an appropriate client file in the current directory."
             )
     if args.module.strip().endswith(".py"):
-        args.module = Path(args.module)
+        args.module = Pathier(args.module)
         if not args.module.is_absolute():
-            args.module = Path.cwd() / args.module
+            args.module = Pathier.cwd() / args.module
 
     return args
 

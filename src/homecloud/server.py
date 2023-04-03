@@ -1,5 +1,5 @@
 import os
-from pathlib import Path
+from pathier import Pathier
 
 import tomlkit
 from fastapi import FastAPI
@@ -9,8 +9,8 @@ from homecloud.homecloud_logging import get_logger
 
 "$router_imports"
 
-root = Path(__file__).parent
-config = tomlkit.loads((root / "homecloud_config.toml").read_text())
+root = Pathier(__file__).parent
+config = (root / "homecloud_config.toml").loads()
 
 app = FastAPI()
 "$router_includes"
@@ -37,7 +37,7 @@ def start_server(uvicorn_args: list[str] = ["--reload"]):
     ip, port = get_serving_address()
     logger.info(f"Server started: http://{ip}:{port}")
     os.system(
-        f"uvicorn {Path(__file__).stem}:app {' '.join(uvicorn_args)} --host {ip} --port {port}"
+        f"uvicorn {Pathier(__file__).stem}:app {' '.join(uvicorn_args)} --host {ip} --port {port}"
     )
 
 

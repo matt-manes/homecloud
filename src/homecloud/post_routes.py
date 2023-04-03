@@ -1,11 +1,11 @@
-from pathlib import Path
+from pathier import Pathier
 
 import request_models
 from fastapi import APIRouter
 
 from homecloud import homecloud_logging
 
-root = Path(__file__).parent
+root = Pathier(__file__).parent
 
 router = APIRouter()
 logger = homecloud_logging.get_logger("$app_name_server")

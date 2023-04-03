@@ -1,14 +1,13 @@
 import json
 import socket
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+from pathier import Pathier
 
 import requests
-import tomlkit
 
 import lanutils
 
-root = Path(__file__).parent
+root = Pathier(__file__).parent
 
 
 def is_homecloud_server(ip: str, port: int) -> str | bool:
@@ -74,30 +73,30 @@ def get_homecloud_servers(
     }
 
 
-def load_config(config_path: Path | str = None) -> dict | None:
+def load_config(config_path: Pathier | str = None) -> dict | None:
     """Load and return toml config file.
 
     :param config_path: file path to the config file.
     If not given, the current working directory will be searched
     for a 'homecloud_config.toml' file."""
     if not config_path:
-        config_path = Path.cwd() / "homecloud_config.toml"
+        config_path = Pathier.cwd() / "homecloud_config.toml"
     else:
-        config_path = Path(config_path)
+        config_path = Pathier(config_path)
     if not config_path.exists():
         RuntimeWarning(f"No '{config_path.stem}' found in {config_path.parent}")
         return None
-    return tomlkit.loads(config_path.read_text())
+    return config_path.loads()
 
 
-def save_config(config: dict, config_path: Path | str = None):
+def save_config(config: dict, config_path: Pathier | str = None):
     """Save toml config file.
 
     :param config_path: file path to the config file.
     If not given, a file named 'homecloud_config.toml'
     will be created in the current working directory."""
     if not config_path:
-        config_path = Path.cwd() / "homecloud_config.toml"
+        config_path = Pathier.cwd() / "homecloud_config.toml"
     else:
-        config_path = Path(config_path)
-    config_path.write_text(tomlkit.dumps(config))
+        config_path = Pathier(config_path)
+    config_path.dumps(config)

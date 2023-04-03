@@ -3,6 +3,7 @@ import socket
 import time
 
 import requests
+from pathier import Pathier
 
 from homecloud import homecloud_logging, homecloud_utils
 
@@ -46,6 +47,7 @@ class HomeCloudClient:
         send_logs: bool = True,
         log_send_thresh: int = 10,
         log_level: str = "INFO",
+        log_path: Pathier | str = None,
         timeout: int = 10,
     ):
         """Initialize client object.

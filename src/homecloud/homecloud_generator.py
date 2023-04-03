@@ -1,7 +1,7 @@
 import argparse
-from pathlib import Path
+from pathier import Pathier
 
-root = Path(__file__).parent
+root = Pathier(__file__).parent
 
 """ Class and CLI for generating the files needed to integrate homecloud into a project. """
 
@@ -13,7 +13,7 @@ def get_args() -> argparse.Namespace:
         "app_name",
         type=str,
         nargs="?",
-        default=Path.cwd().stem,
+        default=Pathier.cwd().stem,
         help=""" The name of the app to generate files for.
         If a value isn't provided, the folder name
         of the current working directory will be used.""",
@@ -32,19 +32,19 @@ def get_args() -> argparse.Namespace:
         "-d",
         "--destination",
         type=str,
-        default=Path.cwd(),
+        default=Pathier.cwd(),
         help=""" The directory to save the generated files to.
         By default, uses the current working directory. """,
     )
 
     args = parser.parse_args()
-    args.destination = Path(args.destination)
+    args.destination = Pathier(args.destination)
 
     return args
 
 
 class HomeCloudGenerator:
-    def __init__(self, app_name: str, destination: Path, routes: list[str] = []):
+    def __init__(self, app_name: str, destination: Pathier, routes: list[str] = []):
         """Initialize homecloud generator object.
 
         :param app_name: The app name to use.

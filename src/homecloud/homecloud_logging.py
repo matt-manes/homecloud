@@ -1,9 +1,9 @@
 import inspect
 import logging
 from io import StringIO
-from pathlib import Path
+from pathier import Pathier
 
-root = Path(__file__).parent
+root = Pathier(__file__).parent
 
 
 def get_logger(log_name: str, log_level: str = "INFO") -> logging.Logger:
@@ -18,7 +18,7 @@ def get_logger(log_name: str, log_level: str = "INFO") -> logging.Logger:
     logger = logging.getLogger(log_name)
 
     if not logger.hasHandlers():
-        root = Path(inspect.stack()[-1].filename).parent
+        root = Pathier(inspect.stack()[-1].filename).parent
         (root / "logs").mkdir(exist_ok=True, parents=True)
         handler = logging.FileHandler(str(root / "logs" / f"{log_name}.log"))
         handler.setFormatter(
