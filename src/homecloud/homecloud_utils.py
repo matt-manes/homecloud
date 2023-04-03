@@ -1,11 +1,10 @@
 import json
 import socket
 from concurrent.futures import ThreadPoolExecutor
-from pathier import Pathier
-
-import requests
 
 import lanutils
+import requests
+from pathier import Pathier
 
 root = Pathier(__file__).parent
 

@@ -1,10 +1,10 @@
 import os
-from pathier import Pathier
-
-import tomlkit
-from fastapi import FastAPI
 
 import lanutils
+import tomlkit
+from fastapi import FastAPI
+from pathier import Pathier
+
 from homecloud.homecloud_logging import get_logger
 
 "$router_imports"

@@ -3,10 +3,10 @@ import importlib
 import importlib.util
 import inspect
 import sys
-from pathier import Pathier
 from typing import Any
 
 import black
+from pathier import Pathier
 
 root = Pathier(__file__).parent
 
