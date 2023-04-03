@@ -71,11 +71,11 @@ class HomeCloudClient:
         self.timeout = timeout
         if send_logs:
             self.logger, self.log_stream = homecloud_logging.get_client_logger(
-                f"{self.app_name}_client", self.host_name, log_level
+                f"{self.app_name}_client", self.host_name, log_level, log_path
             )
         else:
             self.logger = homecloud_logging.get_logger(
-                f"{self.app_name}_client", log_level
+                f"{self.app_name}_client", log_level, log_path
             )
         self.server_url = self.check_last_server()
         if not self.server_url:
