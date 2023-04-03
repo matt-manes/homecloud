@@ -1,6 +1,26 @@
 # Changelog
 
-## 0.1.0 (2023-03-11)
+## 0.2.0 (2023-04-03)
+
+#### New Features
+
+* add log_path param to client and logging files to override default behavior
+#### Refactorings
+
+* replace pathlib.Path with pathier.Pathier
+#### Others
+
+* remove unused imports from client.py
+
+
+## v0.1.1 (2023-03-22)
+
+#### Others
+
+* build v0.1.1
+
+
+## v0.1.0 (2023-03-11)
 
 #### New Features
 
@@ -19,6 +39,8 @@
 * shrink default port range
 #### Others
 
+* build v0.1.0
+* update changelog
 * update test
 
 
