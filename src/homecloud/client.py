@@ -21,7 +21,7 @@ def on_fail(func):
                 break
             except Exception as e:
                 print("Error contacting server")
-                print(str(e))
+                print(e)
                 print(f"Retrying in {counter}s")
                 time.sleep(counter)
                 if counter < 60:
@@ -31,10 +31,6 @@ def on_fail(func):
                 # on a different ip and/or port
                 if counter > 2:
                     self.server_url = self.wheres_my_server()
-        if self.send_logs and (
-            len(self.log_stream.getvalue().splitlines()) >= self.log_send_thresh
-        ):
-            self.push_logs()
         return output
 
     return inner
@@ -161,6 +157,11 @@ class HomeCloudClient:
         :param data: The request body.
 
         :param params: Url parameters."""
+        # Push logs if applicable
+        if self.send_logs and (
+            len(self.log_stream.getvalue().splitlines()) >= self.log_send_thresh
+        ):
+            self.push_logs()
         data |= self.base_payload
         url = f"{self.server_url}{resource}"
         data = json.dumps(data)
@@ -171,8 +172,7 @@ class HomeCloudClient:
     def push_logs(self):
         """Push log stream to the server."""
         self.logger.info(f"Pushing log stream to {self.app_name} server.")
-        self.send_request(
-            "post", "/clientlogs", data={"log_stream": self.log_stream.getvalue()}
-        )
+        log_stream = self.log_stream.getvalue()
         self.log_stream.truncate(0)
         self.log_stream.seek(0)
+        self.send_request("post", "/clientlogs", data={"log_stream": log_stream})
