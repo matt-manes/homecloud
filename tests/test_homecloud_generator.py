@@ -1,7 +1,8 @@
+import sys
+
 from pathier import Pathier
 
 from homecloud import homecloud_generator, homecloud_utils
-import sys
 
 root = Pathier(__file__).parent
 
