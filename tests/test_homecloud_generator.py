@@ -1,6 +1,7 @@
 from pathier import Pathier
 
 from homecloud import homecloud_generator, homecloud_utils
+import sys
 
 root = Pathier(__file__).parent
 
@@ -35,4 +36,15 @@ def test__main():
     config = homecloud_utils.load_config()
     assert all(item in config for item in ["port_range", "uvicorn_args"])
     root.mkcwd()
-    dummy_path.delete()
+    # dummy_path.delete()
+    input("start dummy_server.py before continuing...")
+
+
+def test__push_logs():
+    (root / "dummy").mkcwd()
+    sys.path.insert(0, str(root / "dummy"))
+    import dummy_client
+
+    client = dummy_client.DummyClient(log_send_thresh=2, log_level="DEBUG")
+    for _ in range(10):
+        client.hello()
