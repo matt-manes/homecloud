@@ -1,6 +1,13 @@
 # Changelog
 
-## 0.2.0 (2023-04-03)
+## 0.3.0 (2023-04-10)
+
+#### Refactorings
+
+* move push_logs check and call from on_fail decorator to client.send_request()
+
+
+## v0.2.0 (2023-04-03)
 
 #### New Features
 
@@ -10,6 +17,8 @@
 * replace pathlib.Path with pathier.Pathier
 #### Others
 
+* build v0.2.0
+* update changelog
 * remove unused imports from client.py
 
 
