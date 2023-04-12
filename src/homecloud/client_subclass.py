@@ -1,6 +1,7 @@
 import json
 
 import requests
+from pathier import Pathier
 
 from homecloud import HomeCloudClient, on_fail
 
@@ -12,9 +13,12 @@ class app_nameClient(HomeCloudClient):
         send_logs: bool = True,
         log_send_thresh: int = 10,
         log_level: str = "INFO",
+        log_path: Pathier | str = None,
         timeout: int = 10,
     ):
-        super().__init__(app_name, send_logs, log_send_thresh, log_level, timeout)
+        super().__init__(
+            app_name, send_logs, log_send_thresh, log_level, log_path, timeout
+        )
 
     @on_fail
     def hello(self) -> str:
