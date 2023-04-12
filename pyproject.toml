@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "homecloud"
 description = "A command line tool for generating the template files needed to integrate fastapi, uvicorn, and a requests based client into a Python project."
-version = "0.3.0"
+version = "0.3.1"
 requires-python = ">=3.10"
 dependencies = ["requests", "tomlkit", "pydantic", "black", "fastapi", "lanutils", "pathier"]
 readme = "README.md"
