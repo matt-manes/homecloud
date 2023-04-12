@@ -1,10 +1,24 @@
 # Changelog
 
-## 0.3.0 (2023-04-10)
+## 0.3.1 (2023-04-12)
+
+#### Fixes
+
+* fix incorrect super().__init() args
+#### Refactorings
+
+* use requests.Response built-in json function
+
+
+## v0.3.0 (2023-04-10)
 
 #### Refactorings
 
 * move push_logs check and call from on_fail decorator to client.send_request()
+#### Others
+
+* build v0.3.0
+* update changelog
 
 
 ## v0.2.0 (2023-04-03)
