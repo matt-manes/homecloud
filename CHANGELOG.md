@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.2 (2023-12-25)
+
+#### Others
+
+* update lanutils usage
+
+
 ## v0.3.1 (2023-04-12)
 
 #### Fixes
