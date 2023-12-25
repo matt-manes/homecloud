@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.3 (2023-12-25)
+
+#### Fixes
+
+* remove false dependency
+
+
 ## v0.3.2 (2023-12-25)
 
 #### Others
