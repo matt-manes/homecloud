@@ -26,7 +26,7 @@ def get_port_range() -> tuple[int, int]:
 
 def get_serving_address() -> tuple[str, int]:
     print("Obtaining ip address...")
-    ip = lanutils.get_myip()[0][0]
+    ip = lanutils.get_my_ip()[0][0]
     print("Finding available port in range...")
     port = lanutils.get_available_port(ip, get_port_range())
     return (ip, port)
