@@ -1,8 +1,8 @@
 [project]
 name = "homecloud"
 description = "A command line tool for generating the template files needed to integrate fastapi, uvicorn, and a requests based client into a Python project."
-version = "0.3.3"
-dependencies = ["requests", "tomlkit", "pydantic", "black", "fastapi", "lanutils", "pathier"]
+version = "0.3.4"
+dependencies = ["requests", "tomlkit", "pydantic", "black", "fastapi", "lanutils", "pathier", "dummy_client"]
 readme = "README.md"
 keywords = ["fastapi", "api", "client", "network", "server"]
 classifiers = ["Programming Language :: Python :: 3", "License :: OSI Approved :: MIT License", "Operating System :: OS Independent"]
